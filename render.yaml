@@ -7,7 +7,7 @@ services:
     runtime: docker
     rootDir: mcp-aruba-email
     dockerfilePath: ./Dockerfile
-    plan: starter            # always-on. Change to "free" to avoid cost (server sleeps; may re-ask password).
+    plan: free               # free tier: no cost. The server sleeps when idle and may re-ask the password.
     healthCheckPath: /
     autoDeploy: true
     envVars:
@@ -20,11 +20,7 @@ services:
       # A password YOU invent — you'll type it once to authorize Claude.
       - key: ADMIN_LOGIN_PASSWORD
         sync: false
-      # Persist OAuth tokens on the mounted disk.
-      - key: DATA_DIR
-        value: /data
-    # Keeps you logged in across restarts (requires a paid plan; remove for "free").
-    disk:
-      name: data
-      mountPath: /data
-      sizeGB: 1
+    # NOTE: the free plan has no persistent disk, so OAuth tokens live only in
+    # ephemeral storage and are lost when the server restarts/wakes — you simply
+    # re-authorize in Claude when that happens (see README). Upgrade to a paid
+    # plan + disk for always-on, no re-login.
