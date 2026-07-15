@@ -20,6 +20,11 @@ services:
       # A password YOU invent — you'll type it once to authorize Claude.
       - key: ADMIN_LOGIN_PASSWORD
         sync: false
+      # Signing key for OAuth tokens. Render generates it ONCE and keeps it stable
+      # across restarts, so the connector stays authorized even on the free plan
+      # (no re-login after the server sleeps/wakes).
+      - key: OAUTH_SIGNING_KEY
+        generateValue: true
     # NOTE: the free plan has no persistent disk, so OAuth tokens live only in
     # ephemeral storage and are lost when the server restarts/wakes — you simply
     # re-authorize in Claude when that happens (see README). Upgrade to a paid

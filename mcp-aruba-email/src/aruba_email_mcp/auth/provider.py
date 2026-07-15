@@ -1,9 +1,16 @@
-"""OAuth 2.1 Authorization Server provider backed by :class:`KVStore`.
+"""OAuth 2.1 Authorization Server provider.
 
 The MCP SDK's built-in `/authorize`, `/token`, `/register` and metadata routes
 call into this provider. The SDK verifies PKCE, redirect_uri consistency and
-client authentication itself (see mcp.server.auth.handlers); this class only
-issues/stores/loads clients, codes and tokens.
+client authentication itself (see mcp.server.auth.handlers).
+
+Access/refresh tokens are **stateless**: they are HMAC-signed self-describing
+strings (see `tokens.py`) rather than random values stored in a database. That
+way they keep validating across restarts/redeploys — essential on hosts without a
+persistent disk (e.g. Render free tier) so the connector never needs
+re-authorization. Only short-lived, interactive-login state (authorization codes
+and transactions) lives in SQLite, which is fine because it is only used while the
+server is awake during the login itself.
 
 Access is gated by an admin password: `authorize()` parks the request and
 redirects the browser to `/login`, and only `complete_authorization()` — called
@@ -12,6 +19,7 @@ after a correct password — mints an authorization code.
 
 from __future__ import annotations
 
+import logging
 import secrets
 import time
 
@@ -24,17 +32,41 @@ from mcp.server.auth.provider import (
     construct_redirect_uri,
 )
 from mcp.shared.auth import OAuthClientInformationFull, OAuthToken
+from pydantic import AnyUrl
 
 from ..config import Settings
 from .store import KVStore
+from .tokens import sign, verify
+
+logger = logging.getLogger(__name__)
 
 NS_CLIENT = "client"
 NS_TXN = "txn"
 NS_CODE = "code"
-NS_ACCESS = "access"
-NS_REFRESH = "refresh"
 
 SUBJECT = "mailbox-owner"
+
+# Placeholder redirect for clients reconstructed after a restart. It is never a
+# usable target: a fresh /authorize validates the request redirect_uri against
+# this list (and would fail), so a reconstructed client can only serve the
+# refresh-token grant — which does not use redirect_uri.
+_UNUSED_REDIRECT = "http://localhost/oauth-unused"
+
+# Process-lifetime fallback signing key (used only if OAUTH_SIGNING_KEY is unset).
+_EPHEMERAL_KEY: str | None = None
+
+
+def _signing_key(settings: Settings) -> str:
+    global _EPHEMERAL_KEY
+    if settings.oauth_signing_key:
+        return settings.oauth_signing_key
+    if _EPHEMERAL_KEY is None:
+        _EPHEMERAL_KEY = secrets.token_urlsafe(32)
+        logger.warning(
+            "OAUTH_SIGNING_KEY is not set — using an ephemeral key. Tokens will "
+            "NOT survive a restart; set OAUTH_SIGNING_KEY for persistence."
+        )
+    return _EPHEMERAL_KEY
 
 
 class ArubaOAuthProvider(
@@ -47,9 +79,21 @@ class ArubaOAuthProvider(
     # -- clients ------------------------------------------------------------
     async def get_client(self, client_id: str) -> OAuthClientInformationFull | None:
         raw = self._store.get(NS_CLIENT, client_id)
-        if raw is None:
-            return None
-        return OAuthClientInformationFull.model_validate_json(raw)
+        if raw is not None:
+            return OAuthClientInformationFull.model_validate_json(raw)
+        # Not in storage (e.g. lost on a free-tier restart). Reconstruct a minimal
+        # PUBLIC client so the refresh-token grant keeps working. It has no usable
+        # redirect and no secret, so it cannot start a new authorization — only the
+        # holder of a validly-signed refresh token benefits.
+        return OAuthClientInformationFull(
+            client_id=client_id,
+            client_secret=None,
+            redirect_uris=[AnyUrl(_UNUSED_REDIRECT)],
+            token_endpoint_auth_method="none",
+            grant_types=["authorization_code", "refresh_token"],
+            response_types=["code"],
+            scope=self._s.mailbox_scope,
+        )
 
     async def register_client(self, client_info: OAuthClientInformationFull) -> None:
         self._store.put(NS_CLIENT, client_info.client_id, client_info.model_dump_json())
@@ -122,57 +166,74 @@ class ArubaOAuthProvider(
         self, client: OAuthClientInformationFull, authorization_code: AuthorizationCode
     ) -> OAuthToken:
         self._store.delete(NS_CODE, authorization_code.code)
-
-        access_str = secrets.token_urlsafe(32)
-        refresh_str = secrets.token_urlsafe(32)
-        access_exp = int(time.time()) + self._s.access_token_ttl
-        refresh_exp = int(time.time()) + self._s.refresh_token_ttl
-        scopes = authorization_code.scopes
-
-        access = AccessToken(
-            token=access_str,
+        return self._issue_tokens(
             client_id=client.client_id,
-            scopes=scopes,
-            expires_at=access_exp,
+            scopes=authorization_code.scopes,
+            subject=authorization_code.subject or SUBJECT,
             resource=authorization_code.resource,
-            subject=authorization_code.subject,
         )
-        refresh = RefreshToken(
-            token=refresh_str,
-            client_id=client.client_id,
-            scopes=scopes,
-            expires_at=refresh_exp,
-            subject=authorization_code.subject,
-        )
-        self._store.put(NS_ACCESS, access_str, access.model_dump_json(), expires_at=access_exp)
-        self._store.put(NS_REFRESH, refresh_str, refresh.model_dump_json(), expires_at=refresh_exp)
 
+    # -- tokens (stateless, signed) ----------------------------------------
+    def _issue_tokens(
+        self, *, client_id: str, scopes: list[str], subject: str, resource: str | None
+    ) -> OAuthToken:
+        key = _signing_key(self._s)
+        now = int(time.time())
+        access = sign(
+            {
+                "t": "access",
+                "cid": client_id,
+                "scopes": scopes,
+                "sub": subject,
+                "res": resource,
+                "exp": now + self._s.access_token_ttl,
+            },
+            key,
+        )
+        refresh = sign(
+            {
+                "t": "refresh",
+                "cid": client_id,
+                "scopes": scopes,
+                "sub": subject,
+                "exp": now + self._s.refresh_token_ttl,
+            },
+            key,
+        )
         return OAuthToken(
-            access_token=access_str,
+            access_token=access,
             token_type="Bearer",
             expires_in=self._s.access_token_ttl,
-            refresh_token=refresh_str,
+            refresh_token=refresh,
             scope=" ".join(scopes),
         )
 
-    # -- tokens -------------------------------------------------------------
     async def load_access_token(self, token: str) -> AccessToken | None:
-        raw = self._store.get(NS_ACCESS, token)
-        if raw is None:
+        payload = verify(token, _signing_key(self._s))
+        if payload is None or payload.get("t") != "access":
             return None
-        access = AccessToken.model_validate_json(raw)
-        if access.expires_at and access.expires_at < time.time():
-            self._store.delete(NS_ACCESS, token)
-            return None
-        return access
+        return AccessToken(
+            token=token,
+            client_id=payload["cid"],
+            scopes=payload.get("scopes", []),
+            expires_at=payload.get("exp"),
+            resource=payload.get("res"),
+            subject=payload.get("sub"),
+        )
 
     async def load_refresh_token(
         self, client: OAuthClientInformationFull, refresh_token: str
     ) -> RefreshToken | None:
-        raw = self._store.get(NS_REFRESH, refresh_token)
-        if raw is None:
+        payload = verify(refresh_token, _signing_key(self._s))
+        if payload is None or payload.get("t") != "refresh":
             return None
-        return RefreshToken.model_validate_json(raw)
+        return RefreshToken(
+            token=refresh_token,
+            client_id=payload["cid"],
+            scopes=payload.get("scopes", []),
+            expires_at=payload.get("exp"),
+            subject=payload.get("sub"),
+        )
 
     async def exchange_refresh_token(
         self,
@@ -180,41 +241,14 @@ class ArubaOAuthProvider(
         refresh_token: RefreshToken,
         scopes: list[str],
     ) -> OAuthToken:
-        # Rotate: invalidate the old refresh token, issue a fresh pair.
-        self._store.delete(NS_REFRESH, refresh_token.token)
-        issued_scopes = scopes or refresh_token.scopes
-
-        access_str = secrets.token_urlsafe(32)
-        new_refresh_str = secrets.token_urlsafe(32)
-        access_exp = int(time.time()) + self._s.access_token_ttl
-        refresh_exp = int(time.time()) + self._s.refresh_token_ttl
-
-        access = AccessToken(
-            token=access_str,
+        return self._issue_tokens(
             client_id=client.client_id,
-            scopes=issued_scopes,
-            expires_at=access_exp,
-            subject=refresh_token.subject,
-        )
-        new_refresh = RefreshToken(
-            token=new_refresh_str,
-            client_id=client.client_id,
-            scopes=issued_scopes,
-            expires_at=refresh_exp,
-            subject=refresh_token.subject,
-        )
-        self._store.put(NS_ACCESS, access_str, access.model_dump_json(), expires_at=access_exp)
-        self._store.put(NS_REFRESH, new_refresh_str, new_refresh.model_dump_json(), expires_at=refresh_exp)
-
-        return OAuthToken(
-            access_token=access_str,
-            token_type="Bearer",
-            expires_in=self._s.access_token_ttl,
-            refresh_token=new_refresh_str,
-            scope=" ".join(issued_scopes),
+            scopes=scopes or refresh_token.scopes,
+            subject=refresh_token.subject or SUBJECT,
+            resource=None,
         )
 
     async def revoke_token(self, token: AccessToken | RefreshToken) -> None:
-        # We don't know which bucket it came from; try both.
-        self._store.delete(NS_ACCESS, token.token)
-        self._store.delete(NS_REFRESH, token.token)
+        # Tokens are stateless (not stored), so there's nothing to delete here.
+        # To revoke everything, rotate OAUTH_SIGNING_KEY (invalidates all tokens).
+        return None

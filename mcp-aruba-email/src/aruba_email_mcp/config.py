@@ -39,16 +39,22 @@ class Settings(BaseSettings):
     # Consent-screen gate for the OAuth flow.
     admin_login_password: str
 
+    # Key used to sign stateless OAuth tokens. Must be STABLE across restarts for
+    # tokens to survive (on Render, set via render.yaml `generateValue: true`).
+    # If unset, an ephemeral key is generated at boot (fine for local dev only).
+    oauth_signing_key: str | None = None
+
     # Runtime.
     data_dir: str = "./data"
     host: str = "0.0.0.0"
     port: int = 8000
 
-    # OAuth lifetimes (seconds).
+    # OAuth lifetimes (seconds). Long-lived, stateless tokens minimise refreshes
+    # (each refresh would wake a sleeping free-tier server).
     txn_ttl: int = 600
     auth_code_ttl: int = 300
-    access_token_ttl: int = 3600
-    refresh_token_ttl: int = 60 * 60 * 24 * 30
+    access_token_ttl: int = 60 * 60 * 24 * 7      # 7 days
+    refresh_token_ttl: int = 60 * 60 * 24 * 400   # ~13 months
 
     # Single logical scope for this personal connector.
     mailbox_scope: str = "mailbox"

@@ -26,6 +26,7 @@ def app_and_mcp(tmp_path_factory):
             "ARUBA_EMAIL": "carlo@potential.contractors",
             "ARUBA_PASSWORD": "unused-in-this-test",
             "ADMIN_LOGIN_PASSWORD": ADMIN_PASSWORD,
+            "OAUTH_SIGNING_KEY": "stable-test-signing-key",
             "DATA_DIR": str(data_dir),
         }
     )

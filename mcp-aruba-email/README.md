@@ -66,6 +66,7 @@ Set secrets through your host's secret manager — **do not commit `.env`**.
 | `ARUBA_EMAIL` | ✅ | — | Mailbox address / IMAP+SMTP username. |
 | `ARUBA_PASSWORD` | ✅ | — | Mailbox password (server-side secret). |
 | `ADMIN_LOGIN_PASSWORD` | ✅ | — | Password typed on the consent screen. |
+| `OAUTH_SIGNING_KEY` | | auto | Signs OAuth tokens. Keep it **stable** so logins persist across restarts. On Render it's generated once via `render.yaml`; unset ⇒ ephemeral key (dev only). |
 | `ARUBA_IMAP_HOST` | | `imaps.aruba.it` | |
 | `ARUBA_IMAP_PORT` | | `993` | IMAP over SSL. |
 | `ARUBA_SMTP_HOST` | | `smtps.aruba.it` | |
@@ -157,6 +158,11 @@ claude mcp add --scope user --transport http aruba-email https://mail-mcp.yourdo
 
 ## Security notes
 
+- **Stateless tokens:** access/refresh tokens are HMAC-signed with `OAUTH_SIGNING_KEY`
+  and not stored server-side, so they keep working across restarts/sleeps (no
+  persistent disk needed — ideal for the free tier). Trade-off: individual tokens
+  can't be revoked before they expire; to revoke everything, change/rotate
+  `OAUTH_SIGNING_KEY` (this logs all clients out at once).
 - No secrets in the repo: `.env` and `*.sqlite` are git-ignored; `.env.example`
   holds placeholders only.
 - Dynamic client registration is open per the OAuth spec, but the **admin-password
