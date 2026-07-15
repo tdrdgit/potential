@@ -124,11 +124,29 @@ def build_mcp() -> FastMCP:
         )
 
     @mcp.tool()
-    async def get_email(uid: str, folder: str = "INBOX") -> dict:
-        """Fetch the full content of a single email by its uid."""
-        return await anyio.to_thread.run_sync(
+    async def get_email(
+        uid: str, folder: str = "INBOX", include_html: bool = False
+    ) -> dict:
+        """Fetch a single email by uid.
+
+        Returns the clean text body by default. The raw HTML body is omitted unless
+        include_html=True (it can be very large); body_text is capped to keep
+        responses small. Attachment metadata is always included.
+        """
+        msg = await anyio.to_thread.run_sync(
             lambda: _imap_call(settings, "get_message", uid=uid, folder=folder)
         )
+        text = msg.get("body_text") or ""
+        if len(text) > 12000:
+            text = text[:12000] + "\n…[testo troncato]"
+        msg["body_text"] = text
+        if include_html:
+            html = msg.get("body_html") or ""
+            msg["body_html"] = html[:20000] + ("…[html troncato]" if len(html) > 20000 else "")
+        else:
+            msg.pop("body_html", None)
+            msg["body_html_omitted"] = True
+        return msg
 
     @mcp.tool()
     async def list_folders() -> list[str]:

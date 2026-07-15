@@ -26,8 +26,12 @@ sono **condivisi** tra progetti → da soli NON bastano per attribuire una mail.
   Giovanni Bergamaschi (Bergamaschi)
 
 ### 3. Trenitalia
-- **Cliente:** Paolo Priolo
-- **Fornitore:** Matteo Ariosto (Alart)
+- **Cliente / interlocutori:** Paolo Priolo (Alkemy); Design Group Italia — Chris
+  Miller, Valentino Caporizzi (DGA lavora anche su Trenitalia, non solo Mountain
+  Retreat)
+- **Fornitore operativo:** Matteo Ariosto (Alart)
+- Temi ricorrenti: "clime"/climatizzazione, "FrecciaPoint" / FrecciaLounge, stazioni
+  (Roma Termini, Napoli).
 
 ## Come attribuire una mail a un progetto
 I referenti condivisi (es. Fabrizia Sabatino, Carol Tayar, Matteo Ariosto) NON sono
@@ -45,20 +49,25 @@ sufficienti da soli. Attribuisci in quest'ordine:
 
 ## Procedura "Recap email"
 Trigger: l'utente scrive **"Recap email"**.
-1. **Leggi** le mail non lette + recenti di **entrambe** le caselle (vedi sopra).
-2. **Raggruppa** e presenta in quest'ordine:
-   - **📁 Progetti** — con **sotto‑raggruppamento per progetto** (Mountain Retreat,
-     Blue Lagoon Retreat Improvements, Trenitalia, ed eventuale "⚠️ Progetto incerto").
-   - **👤 Personali** — mail personali/non di lavoro.
-   - **🗂️ Altre mail / Spam** — newsletter, promozioni, notifiche, sospette.
-   Per ogni mail mostra: **mittente**, **oggetto**, **data**, e **casella** di
-   provenienza (carlocasagrande / potential).
-3. **Attendi istruzioni.** Dopo il recap, l'utente potrà chiederti di:
-   - **segnare come lette** alcune mail (`mark_email_read`);
-   - **spostarle** in cartelle specifiche (`move_email`; crea la cartella con
-     `create_folder` se non esiste). Sul lato Gmail (potential) usa il connettore
-     Gmail per etichettare/archiviare.
-   Non segnare come letto né spostare **nulla** finché l'utente non lo chiede.
+1. **Leggi** le mail non lette + recenti di **entrambe** le caselle (vedi sopra), e
+   apri il contenuto di quelle di lavoro quanto basta per capire **cosa viene
+   chiesto**.
+2. **Sintetizza per progetto** (NON elencare le mail). Per ogni progetto scrivi in
+   modo **schematico**: **chi chiede cosa** → **quali azioni** servono. Ordine:
+   Progetti (sotto-gruppo per progetto: Mountain Retreat, Blue Lagoon, Trenitalia,
+   eventuale "⚠️ Progetto incerto"), poi **Personale** (solo voci che richiedono
+   un'azione, es. scadenze/banca), poi eventuale **Altre/Spam** in una riga sola.
+3. **Attendi istruzioni.** Dopo il recap, l'utente potrà chiederti di **segnare come
+   lette** (`mark_email_read`) e/o **spostare** in cartelle (`move_email`, con
+   `create_folder` se manca; su Gmail usa il connettore Gmail). Non segnare/spostare
+   **nulla** finché non lo chiede.
+
+## Formato del recap (IMPORTANTE)
+- **Sintetico e schematico.** Poco testo. NIENTE elenco delle singole email.
+- Focus su **cosa mi viene chiesto** e **cosa va fatto** (azioni), raggruppato per
+  progetto. Nomina chi scrive e il fornitore coinvolto solo se utile all'azione.
+- Evita dettagli superflui (tracking, firme, disclaimer). Le urgenze/scadenze vanno
+  evidenziate.
 
 ## Note / da migliorare
 - Aggiungere qui alias e parole‑chiave specifiche man mano che emergono (nomi
