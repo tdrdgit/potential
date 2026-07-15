@@ -25,6 +25,14 @@ single admin password you choose.
 - `get_email(uid, folder="INBOX")` — full message (text, HTML, attachments metadata)
 - `list_folders()` — IMAP mailboxes
 - `mark_email_read(uid, folder="INBOX", read=True)`
+- `move_email(uid, to_folder, from_folder="INBOX")` — move a message (creates the target folder if missing)
+- `create_folder(name)` — create an IMAP folder
+
+**Rules / behaviour**
+- `get_email_rules()` — returns the project & "Recap email" rules bundled with the
+  connector (`src/aruba_email_mcp/email_rules.md`). Edit that file and redeploy to
+  update the behaviour everywhere (web, mobile). The rules are also summarised in the
+  server's MCP `instructions` so the model is aware of them.
 
 **Send (SMTP)**
 - `send_email(to, subject, body_text, body_html?, cc?, bcc?)`

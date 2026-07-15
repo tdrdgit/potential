@@ -184,17 +184,20 @@ async def test_tools_registered(app_and_mcp):
     _, mcp = app_and_mcp
     tools = await mcp.list_tools()
     names = {t.name for t in tools}
-    assert names == {
+    assert {
         "list_recent_emails",
         "list_unread_emails",
         "search_emails",
         "get_email",
         "list_folders",
         "mark_email_read",
+        "move_email",
+        "create_folder",
+        "get_email_rules",
         "send_email",
         "reply_to_email",
         "create_draft",
-    }
+    } == names
 
 
 @pytest.fixture

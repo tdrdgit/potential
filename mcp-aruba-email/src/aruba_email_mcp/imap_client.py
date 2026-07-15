@@ -216,6 +216,56 @@ class ImapClient:
         if typ != "OK":
             raise RuntimeError(f"Could not append message to '{folder}'")
 
+    def create_folder(self, name: str) -> dict:
+        """Create an IMAP folder (no error if it already exists)."""
+        assert self.conn is not None
+        typ, data = self.conn.create(_quote_folder(name))
+        if typ != "OK":
+            detail = (data[0].decode() if data and data[0] else "").lower()
+            if "already exists" in detail or "alreadyexists" in detail:
+                return {"status": "exists", "folder": name}
+            raise RuntimeError(f"Could not create folder '{name}'")
+        return {"status": "created", "folder": name}
+
+    def move_message(
+        self,
+        uid: str,
+        to_folder: str,
+        from_folder: str = "INBOX",
+        create_if_missing: bool = True,
+    ) -> dict:
+        """Move a message to another folder.
+
+        Prefers the IMAP MOVE extension (RFC 6851, supported by Dovecot/Aruba); falls
+        back to COPY + \\Deleted + EXPUNGE on servers without it.
+        """
+        assert self.conn is not None
+        typ, _ = self.conn.select(_quote_folder(from_folder), readonly=False)
+        if typ != "OK":
+            raise RuntimeError(f"Could not open folder '{from_folder}'")
+
+        if create_if_missing:
+            try:
+                self.conn.create(_quote_folder(to_folder))  # ignore "already exists"
+            except Exception:
+                pass
+
+        # Try UID MOVE first.
+        try:
+            typ, data = self.conn.uid("MOVE", str(uid), _quote_folder(to_folder))
+            if typ == "OK":
+                return {"status": "moved", "uid": uid, "to_folder": to_folder, "method": "MOVE"}
+        except Exception:
+            pass  # server without MOVE — fall back to COPY + delete
+
+        typ, data = self.conn.uid("COPY", str(uid), _quote_folder(to_folder))
+        if typ != "OK":
+            detail = data[0].decode() if data and data[0] else ""
+            raise RuntimeError(f"Could not copy message to '{to_folder}': {detail}")
+        self.conn.uid("STORE", str(uid), "+FLAGS", r"(\Deleted)")
+        self.conn.expunge()
+        return {"status": "moved", "uid": uid, "to_folder": to_folder, "method": "COPY"}
+
     # -- internal -----------------------------------------------------------
     def _summary(self, uid: bytes | str, folder: str, include_snippet: bool) -> dict:
         assert self.conn is not None

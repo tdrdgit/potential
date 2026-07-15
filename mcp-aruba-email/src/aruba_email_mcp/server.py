@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+from pathlib import Path
 
 import anyio
 from mcp.server.auth.settings import (
@@ -21,11 +22,29 @@ from .config import Settings, get_settings
 from .imap_client import ImapClient
 from .smtp_client import SmtpClient
 
+_RULES_PATH = Path(__file__).parent / "email_rules.md"
+
+
+def _load_rules() -> str:
+    try:
+        return _RULES_PATH.read_text(encoding="utf-8")
+    except Exception:
+        return ""
+
+
+EMAIL_RULES = _load_rules()
+
 INSTRUCTIONS = (
     "Tools to read and send email from an Aruba-hosted mailbox over IMAP/SMTP. "
     "Use list_unread_emails / list_recent_emails to check for new mail, get_email "
-    "to read a full message by uid, and send_email / reply_to_email / create_draft "
-    "to write. All actions use the mailbox configured on the server."
+    "to read a full message by uid, send_email / reply_to_email / create_draft to "
+    "write, and mark_email_read / move_email / create_folder to organise. All "
+    "actions use the mailbox configured on the server.\n\n"
+    "This connector carries the user's project & email rules. When the user asks "
+    "for a \"Recap email\" (or to summarise/triage the inbox), FIRST call "
+    "get_email_rules and follow the procedure it describes, then wait for "
+    "instructions before marking read or moving anything. Active projects: "
+    "Mountain Retreat, Blue Lagoon Retreat Improvements, Trenitalia."
 )
 
 
@@ -125,6 +144,29 @@ def build_mcp() -> FastMCP:
             lambda: _imap_call(settings, "mark_seen", uid=uid, folder=folder, seen=read)
         )
         return {"status": "ok", "uid": uid, "read": read}
+
+    @mcp.tool()
+    async def move_email(uid: str, to_folder: str, from_folder: str = "INBOX") -> dict:
+        """Move an email to another folder (the folder is created if it doesn't exist)."""
+        return await anyio.to_thread.run_sync(
+            lambda: _imap_call(
+                settings, "move_message", uid=uid, to_folder=to_folder, from_folder=from_folder
+            )
+        )
+
+    @mcp.tool()
+    async def create_folder(name: str) -> dict:
+        """Create a new IMAP folder/mailbox."""
+        return await anyio.to_thread.run_sync(
+            lambda: _imap_call(settings, "create_folder", name=name)
+        )
+
+    @mcp.tool()
+    async def get_email_rules() -> str:
+        """Return the user's project & email rules (projects, how to attribute mail to
+        a project, and the 'Recap email' procedure). Call this before doing a
+        'Recap email' or triaging the inbox."""
+        return EMAIL_RULES or "No rules file is configured on the server."
 
     # -- send tools ---------------------------------------------------------
     @mcp.tool()
