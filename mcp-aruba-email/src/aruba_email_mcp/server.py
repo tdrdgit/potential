@@ -22,14 +22,20 @@ from .config import Settings, get_settings
 from .imap_client import ImapClient
 from .smtp_client import SmtpClient
 
-_RULES_PATH = Path(__file__).parent / "email_rules.md"
+# Rules are split into a living directory (projects + sender→project map) and the
+# work rules (Recap procedure, format, collaborator behaviour).
+_RULES_DIR = Path(__file__).parent
+_RULES_FILES = ("project_directory.md", "work_rules.md")
 
 
 def _load_rules() -> str:
-    try:
-        return _RULES_PATH.read_text(encoding="utf-8")
-    except Exception:
-        return ""
+    parts = []
+    for name in _RULES_FILES:
+        try:
+            parts.append((_RULES_DIR / name).read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    return "\n\n---\n\n".join(parts)
 
 
 EMAIL_RULES = _load_rules()
