@@ -11,7 +11,6 @@ from mcp.server.auth.settings import (
     RevocationOptions,
 )
 from mcp.server.fastmcp import FastMCP
-from pydantic import AnyHttpUrl
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
@@ -42,8 +41,8 @@ def build_mcp() -> FastMCP:
     provider = ArubaOAuthProvider(settings, store)
 
     auth_settings = AuthSettings(
-        issuer_url=settings.public_base_url,
-        resource_server_url=AnyHttpUrl(f"{settings.base_url}/mcp"),
+        issuer_url=settings.issuer_url,
+        resource_server_url=settings.resource_url,
         client_registration_options=ClientRegistrationOptions(
             enabled=True,
             valid_scopes=[settings.mailbox_scope],

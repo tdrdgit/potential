@@ -1,0 +1,30 @@
+# Render Blueprint for the Aruba Email MCP server.
+# In Render: New + -> Blueprint -> connect this repo -> pick this branch.
+# Render reads this file and creates the service; you only fill in the 3 secrets.
+services:
+  - type: web
+    name: aruba-email-mcp
+    runtime: docker
+    rootDir: mcp-aruba-email
+    dockerfilePath: ./Dockerfile
+    plan: starter            # always-on. Change to "free" to avoid cost (server sleeps; may re-ask password).
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      # Your Aruba mailbox address (also the IMAP/SMTP username).
+      - key: ARUBA_EMAIL
+        sync: false
+      # Your Aruba mailbox password (kept secret on the server; never sent to Claude).
+      - key: ARUBA_PASSWORD
+        sync: false
+      # A password YOU invent — you'll type it once to authorize Claude.
+      - key: ADMIN_LOGIN_PASSWORD
+        sync: false
+      # Persist OAuth tokens on the mounted disk.
+      - key: DATA_DIR
+        value: /data
+    # Keeps you logged in across restarts (requires a paid plan; remove for "free").
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 1
