@@ -216,6 +216,36 @@ class ImapClient:
         if typ != "OK":
             raise RuntimeError(f"Could not append message to '{folder}'")
 
+    def resolve_special_folder(self, use_flag: str, default: str) -> str:
+        """Find a special-use mailbox (e.g. '\\Drafts', '\\Sent') via RFC 6154.
+
+        Falls back to `default` if the server doesn't advertise the flag, then to a
+        leaf-name match (e.g. any mailbox ending in 'Drafts').
+        """
+        assert self.conn is not None
+        leaf = use_flag.lstrip("\\").lower()  # "drafts" / "sent"
+        try:
+            typ, data = self.conn.list()
+        except Exception:
+            return default
+        name_match = None
+        for line in data or []:
+            if not line:
+                continue
+            decoded = line.decode() if isinstance(line, bytes) else line
+            m = _LIST_RE.match(decoded)
+            if not m:
+                continue
+            flags = m.group("flags").lower()
+            name = m.group("name").strip()
+            if name.startswith('"') and name.endswith('"'):
+                name = name[1:-1].replace('\\"', '"')
+            if use_flag.lower() in flags:
+                return name
+            if name.split(".")[-1].lower() == leaf:
+                name_match = name
+        return name_match or default
+
     def create_folder(self, name: str) -> dict:
         """Create an IMAP folder (no error if it already exists)."""
         assert self.conn is not None

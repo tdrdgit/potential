@@ -33,8 +33,10 @@ class Settings(BaseSettings):
     aruba_imap_port: int = 993
     aruba_smtp_host: str = "smtps.aruba.it"
     aruba_smtp_port: int = 465
-    aruba_drafts_folder: str = "Drafts"
-    aruba_sent_folder: str = "Sent"
+    # Aruba/Dovecot mailboxes namespace under "INBOX." — these are the common
+    # defaults, but the server also auto-detects the special-use folders at runtime.
+    aruba_drafts_folder: str = "INBOX.Drafts"
+    aruba_sent_folder: str = "INBOX.Sent"
 
     # Consent-screen gate for the OAuth flow.
     admin_login_password: str

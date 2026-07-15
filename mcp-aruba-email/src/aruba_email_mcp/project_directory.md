@@ -34,12 +34,27 @@ da soli NON bastano per attribuire una mail.
 | paolo.priolo@alkemy.com | **Trenitalia** | cliente |
 | @designgroupitalia.it (Chris Miller, Valentino Caporizzi) | **Trenitalia** (solo) | confermato 15/07/2026 |
 | @alartariosto.com — Matteo Ariosto | **Trasversale** | fornitore su più progetti → attribuisci per **argomento**, mai per mittente |
-| @formalighting.* (Forma Lighting) | Mountain Retreat | ⚠️ **da confermare**: la mail "BL - Millwork luminaires - Ord. 26/01278" (Blue Lagoon) lo coinvolge |
+| @formalighting.* (Forma Lighting) | **Mountain Retreat** (solo) | confermato 15/07/2026 |
 | @bluelagoon.is (Fabrizia Sabatino, Carol Tayar, Jón B. Jóhannsson) | **per argomento** | dominio non decisivo: seguono anche Mountain Retreat |
+
+**Casi risolti / eccezioni:**
+- La mail **"BL - Millwork luminaires - Ord. 26/01278"** (mittente @bluelagoon.is,
+  oggetto "BL") è **Mountain Retreat** — decide la fornitura **Forma Lighting**. Qui
+  "BL"/@bluelagoon.is NON implica il progetto Blue Lagoon.
 
 ## Indirizzi corretti / da attenzionare
 - **Matteo Ariosto (Alart)** → indirizzo corretto: **matteo@alartariosto.com**
   (occhio al refuso `matreo@alartariosto.com`).
+
+## Cartelle mailbox (Aruba — prefisso `INBOX.`)
+Speciali: `INBOX.Drafts` (bozze), `INBOX.Sent` (inviati), `INBOX.SPAM`, `INBOX.Trash`.
+Progetti **attivi** (destinazioni candidate per l'archiviazione — **da confermare**
+con Carlo prima di spostare):
+- Mountain Retreat → `INBOX.WORK - PROJECTS.MOUNTAIN RETREAT` (+ sottocartelle MR - …)
+- Trenitalia → `INBOX.WORK - PROJECTS.TRENITALIA`
+- Blue Lagoon Retreat Improvements → `INBOX.WORK - PROJECTS.RETREAT IMPROVEMENTS`
+(Esiste anche un grande archivio storico `INBOX.WORK - DGI BACKUP.*` — non usarlo per
+le nuove mail salvo indicazione.)
 
 ## Come attribuire una mail a un progetto
 I referenti condivisi non bastano. In ordine:

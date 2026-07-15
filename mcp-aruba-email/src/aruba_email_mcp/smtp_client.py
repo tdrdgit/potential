@@ -30,7 +30,8 @@ class SmtpClient:
         """Best-effort: keep a copy in the Sent folder (never fatal)."""
         try:
             with ImapClient(self._s) as imap:
-                imap.append_message(msg.as_bytes(), self._s.aruba_sent_folder, flags=r"(\Seen)")
+                folder = imap.resolve_special_folder("\\Sent", self._s.aruba_sent_folder)
+                imap.append_message(msg.as_bytes(), folder, flags=r"(\Seen)")
         except Exception:
             pass
 
@@ -103,5 +104,6 @@ class SmtpClient:
             domain=_sender_domain(self._s.aruba_email),
         )
         with ImapClient(self._s) as imap:
-            imap.append_message(msg.as_bytes(), self._s.aruba_drafts_folder, flags=r"(\Draft)")
-        return {"status": "draft_saved", "folder": self._s.aruba_drafts_folder, "subject": subject}
+            folder = imap.resolve_special_folder("\\Drafts", self._s.aruba_drafts_folder)
+            imap.append_message(msg.as_bytes(), folder, flags=r"(\Draft)")
+        return {"status": "draft_saved", "folder": folder, "subject": subject}
