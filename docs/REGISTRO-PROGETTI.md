@@ -988,10 +988,29 @@ caricata su Ajour da **Hjörtur Pálsson (Optimum)** il **01.09.2022** e girata 
 
 ---
 
-### MR - Design Development · MR - Planning
+### MR - Design Development
 
-Cartelle **vuote**. Il contenuto di sviluppo progetto è di fatto distribuito fra
-*Design Concept*, *Claddings Portals* e *Doors*.
+Cartella **attualmente vuota** — ma con destinazione d'uso già definita.
+
+`DECISIONE` **Uso previsto:** ospiterà gli scambi con **Alart** e con il **cliente**
+quando arriveranno i **disegni ingegnerizzati prodotti da Alart**, e i **commenti** su
+quei disegni. — *Carlo, 25.07.2026*
+
+`NOTA` Distinzione operativa rispetto alle cartelle vicine:
+- **MR - Design Concept** → disegni e revisioni emessi da **noi / BLD** verso i fornitori
+  (es. `5_19_XX_12_V2`), più il registro item.
+- **MR - Design Development** → disegni **ingegnerizzati da Alart** e relativo giro di
+  commenti e approvazioni.
+- **MR - BOQ RFQ** → pacchetti disegni e codici a supporto della **quotazione**.
+
+`NOTA` L'ingegnerizzazione Alart è stata sbloccata dal pagamento dell'acconto 50% del
+20.07.2026 (vedi *MR - Offer Approvals*): i primi disegni ingegnerizzati sono quindi
+attesi a breve, compatibilmente con la chiusura estiva italiana.
+
+### MR - Planning
+
+Cartella **vuota**. Il contenuto di pianificazione è di fatto distribuito fra
+*Budget*, *Logistic* e *Offer Approvals*.
 
 ---
 
