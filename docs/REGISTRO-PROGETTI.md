@@ -12,6 +12,17 @@ ogni ramo la suddivisione è per **area / item**.
 - I **commenti per singolo item** (codici `5_19_...`) stanno in **MR - Design Concept § Registro item**.
 - Ultimo aggiornamento: **25/07/2026**.
 
+**Catena documentale** — ogni azione o decisione va tracciata in quest'ordine:
+
+| # | File | Ruolo |
+|---|---|---|
+| 1 | `docs/RA-MR-ACTION-TRACKER_2026-07-25.xlsx` | **Fonte di verità.** Fogli TO-DO e CHANGE LOG, con destinatario e stato |
+| 2 | `docs/REGISTRO-PROGETTI.md` (questo file) | Forma discorsiva, per ambito, con fonte e data |
+| 3 | `docs/MR-Topic-Aperti_*.pdf` / `.html` | Sintesi dei soli punti aperti, per condivisione |
+
+Vale la regola già scritta nella legenda del tracker: **se una disposizione non è
+nel registro, non esiste**. Si registra prima di scrivere la mail, non dopo.
+
 **Copertura attuale** — tutte le sottocartelle di `MOUNTAIN RETREAT`:
 
 | Cartella | Email | Stato |
