@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>Mountain Retreat — Topic aperti</title>
+<style>
+  @page { size: A4; margin: 16mm 14mm 18mm 14mm; }
+
+  :root{
+    --red:#C71617;
+    --grey:#D9D9D9;
+    --ink:#000000;
+    --muted:#6b6b6b;
+    --hair:#c9c9c9;
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family:"Helvetica Neue",Helvetica,Arial,"Liberation Sans",sans-serif;
+    color:var(--ink);
+    font-size:8.6pt;
+    line-height:1.42;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- intestazione ---------- */
+  .head{ border-top:3pt solid var(--red); padding-top:9pt; margin-bottom:16pt; }
+  .kicker{
+    font-size:7pt; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--red); font-weight:700; margin-bottom:7pt;
+  }
+  h1{ font-size:20pt; line-height:1.1; margin:0 0 4pt; font-weight:700; letter-spacing:-.015em; }
+  .sub{ font-size:9.5pt; color:var(--muted); margin:0; }
+  .meta{
+    margin-top:11pt; padding-top:7pt; border-top:.6pt solid var(--hair);
+    display:flex; gap:26pt; font-size:7.4pt; color:var(--muted);
+  }
+  .meta b{ color:var(--ink); font-weight:600; }
+
+  /* ---------- cruscotto ---------- */
+  .dash{ display:flex; gap:7pt; margin-bottom:15pt; }
+  .stat{ flex:1; background:var(--grey); padding:8pt 9pt; }
+  .stat.hi{ background:var(--red); color:#fff; }
+  .stat .n{ font-size:19pt; font-weight:700; line-height:1; letter-spacing:-.02em; }
+  .stat .l{ font-size:6.6pt; letter-spacing:.11em; text-transform:uppercase; margin-top:4pt; }
+
+  /* ---------- sezioni ---------- */
+  section{ margin-bottom:13pt; break-inside:avoid; }
+  h2{
+    font-size:8.4pt; letter-spacing:.13em; text-transform:uppercase; font-weight:700;
+    margin:0 0 6pt; padding-bottom:3.5pt; border-bottom:1.4pt solid var(--ink);
+    display:flex; justify-content:space-between; align-items:baseline;
+  }
+  h2 .cnt{ font-size:7pt; color:var(--muted); letter-spacing:.06em; font-weight:600; }
+
+  table{ width:100%; border-collapse:collapse; }
+  td{ padding:5pt 6pt 5pt 0; vertical-align:top; border-bottom:.5pt solid #e8e8e8; }
+  tr:last-child td{ border-bottom:none; }
+
+  td.p{ width:15pt; padding-right:7pt; }
+  .dot{ display:block; width:7pt; height:7pt; border-radius:50%; margin-top:2.5pt; }
+  .a{ background:var(--red); }
+  .m{ background:#9a9a9a; }
+  .b{ background:var(--grey); }
+
+  td.t{ }
+  .t .ttl{ font-weight:600; }
+  .t .dsc{ color:#3d3d3d; margin-top:1.5pt; }
+  code{
+    font-family:"SF Mono",Menlo,Consolas,"DejaVu Sans Mono",monospace;
+    font-size:7.4pt; background:#f2f2f2; padding:.5pt 2.5pt;
+  }
+
+  td.o{ width:88pt; padding-right:0; color:var(--muted); font-size:7.4pt; }
+  td.d{ width:52pt; padding-right:0; color:var(--muted); font-size:7.4pt; text-align:right; white-space:nowrap; }
+  .stale{ color:var(--red); font-weight:600; }
+
+  /* ---------- nota ---------- */
+  .note{
+    border-left:2.5pt solid var(--red); background:#fafafa;
+    padding:7pt 9pt; margin-bottom:14pt; font-size:7.8pt;
+  }
+  .note b{ display:block; margin-bottom:2.5pt; font-size:7pt;
+           letter-spacing:.11em; text-transform:uppercase; color:var(--red); }
+
+  /* ---------- piede ---------- */
+  .foot{
+    margin-top:16pt; padding-top:7pt; border-top:.6pt solid var(--hair);
+    display:flex; justify-content:space-between;
+    font-size:6.8pt; color:var(--muted); letter-spacing:.05em;
+  }
+  .foot .pay{ text-transform:uppercase; letter-spacing:.16em; }
+
+  .legend{ display:flex; gap:14pt; font-size:6.8pt; color:var(--muted); margin-bottom:13pt; align-items:center; }
+  .legend span{ display:flex; gap:4pt; align-items:center; }
+  .legend i{ width:6pt; height:6pt; border-radius:50%; display:block; }
+</style>
+</head>
+<body>
+
+<div class="head">
+  <div class="kicker">Mountain Retreat &nbsp;·&nbsp; Fit-out &amp; Custom Interiors</div>
+  <h1>Topic aperti</h1>
+  <p class="sub">Riepilogo dei punti non chiusi, per area di progetto</p>
+  <div class="meta">
+    <div>Aggiornato al <b>25.07.2026</b></div>
+    <div>Fonte <b>archivio email MOUNTAIN RETREAT</b> — 12 cartelle, 311 messaggi</div>
+    <div>Periodo coperto <b>gen 2024 – lug 2026</b></div>
+  </div>
+</div>
+
+<div class="dash">
+  <div class="stat hi"><div class="n">37</div><div class="l">Topic aperti</div></div>
+  <div class="stat"><div class="n">15</div><div class="l">Priorità alta</div></div>
+  <div class="stat"><div class="n">9</div><div class="l">Fermi da &gt; 6 mesi</div></div>
+  <div class="stat"><div class="n">10</div><div class="l">Aree coinvolte</div></div>
+</div>
+
+<div class="legend">
+  <span><i class="a"></i> Alta</span>
+  <span><i class="m"></i> Media</span>
+  <span><i class="b"></i> Bassa</span>
+  <span style="margin-left:auto">La data indica da quando il punto è aperto · <span class="stale">in rosso</span> se fermo da oltre 6 mesi</span>
+</div>
+
+<div class="note">
+  <b>Tre scadenze che stringono</b>
+  <strong>DGA chiude 10–21.08</strong> (ultime spedizioni 04.08) e <strong>Forma Lighting 10–14.08</strong>: quanto serve per la mock-up room va movimentato prima. La <strong>soletta della bike room</strong> va decisa ora, perché condiziona un'opera strutturale. L'<strong>RFI 198</strong> blocca l'inizio della piastrellatura in cantiere.
+</div>
+
+<section>
+  <h2>Fire — reazione al fuoco <span class="cnt">6 punti</span></h2>
+  <table>
+    <tr>
+      <td class="p"><span class="dot a"></span></td>
+      <td class="t"><div class="ttl">Protega Novatherm 1FR — verifica di fattibilità</div>
+        <div class="dsc">Prodotto suggerito da EFLA per raggiungere B,s1-d0 sui cielini, che non hanno deroga. Nessuna risposta dopo la mail del 6 febbraio.</div></td>
+      <td class="o">Carlo · EFLA</td><td class="d stale">06.02.26</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot a"></span></td>
+      <td class="t"><div class="ttl">Assessment B,s2-d0 per le pareti</div>
+        <div class="dsc">Grazie agli sprinkler EFLA apre al declassamento del cladding a parete, ma la valutazione non è mai stata formalizzata.</div></td>
+      <td class="o">EFLA</td><td class="d stale">06.02.26</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot m"></span></td>
+      <td class="t"><div class="ttl">Linee guida porte islandesi → Bergamaschi</div>
+        <div class="dsc">PDF tradotto in inglese ricevuto da Hartmann, da inoltrare. Chiarito che la norma sulla Danimarca non si applica a Bergamaschi.</div></td>
+      <td class="o">Carlo · Carol</td><td class="d">22.05.26</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot m"></span></td>
+      <td class="t"><div class="ttl">Il pavimento Haute soddisfa Cfl-s1?</div>
+        <div class="dsc">Domanda posta da Perla a BLD; nessuna risposta conclusiva in archivio.</div></td>
+      <td class="o">Fabrizia · Carol</td><td class="d stale">14.11.24</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot m"></span></td>
+      <td class="t"><div class="ttl">Contraddizione sul sistema di aggancio</div>
+        <div class="dsc">Basalt: il requisito non si applica se il sistema è chiuso e non raggiungibile dal fuoco. EFLA: i telai di supporto sono soggetti a B,s1-d0. Mai riconciliate.</div></td>
+      <td class="o">Carlo · EFLA</td><td class="d stale">19.11.24</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot b"></span></td>
+      <td class="t"><div class="ttl">Categorie CGF e CGS della bachelite HPL</div>
+        <div class="dsc">Da chiarire con il referente islandese; sopra i 6 mm la classe è comunque raggiunta.</div></td>
+      <td class="o">Carol</td><td class="d stale">23.10.24</td>
+    </tr>
+  </table>
+</section>
+
+<section>
+  <h2>Doors <span class="cnt">6 punti</span></h2>
+  <table>
+    <tr>
+      <td class="p"><span class="dot a"></span></td>
+      <td class="t"><div class="ttl">Secondo fornitore porte — offerta alternativa</div>
+        <div class="dsc">L'ultima offerta Bergamaschi vale ~840.000 €. Il board ha chiesto conto della singola offerta; Javerk può procurarne un'altra. Si resta liberi di cambiare fino alla firma.</div></td>
+      <td class="o">Hartmann · Carol</td><td class="d">18.03.26</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot m"></span></td>
+      <td class="t"><div class="ttl">Test Xeno — ingiallimento UV</div>
+        <div class="dsc">Hartmann lo vuole fare. Da procurare le offerte e decidere se il costo entra nel pacchetto mock-up room.</div></td>
+      <td class="o">Carol</td><td class="d">18.03.26</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot m"></span></td>
+      <td class="t"><div class="ttl">Campione pavimento ignifugo — due classi</div>
+        <div class="dsc">Servono scale e aree comuni con classi diverse; la classe è cambiata dopo il campione precedente. Da rivedere entrambi.</div></td>
+      <td class="o">Carol · Haute</td><td class="d">18.03.26</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot m"></span></td>
+      <td class="t"><div class="ttl">Porte esterne SPA con contrappeso</div>
+        <div class="dsc">Da chiarire con Bergamaschi come realizzarle: peso al posto del chiudiporta tradizionale.</div></td>
+      <td class="o">Bergamaschi</td><td class="d stale">14.10.25</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot m"></span></td>
+      <td class="t"><div class="ttl">Porte d'ingresso principali SPA e Hotel</div>
+        <div class="dsc">Modalità realizzativa mai definita.</div></td>
+      <td class="o">Bergamaschi</td><td class="d stale">14.10.25</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot m"></span></td>
+      <td class="t"><div class="ttl">Codici errati e porte aggiunte nelle liste</div>
+        <div class="dsc">Alcune porte sono state aggiunte dopo la quotazione, altre riportano codici sbagliati. Serve un controllo incrociato.</div></td>
+      <td class="o">Fabrizia · Carlo</td><td class="d stale">14.10.25</td>
+    </tr>
+  </table>
+</section>
+
+<section>
+  <h2>Claddings &amp; Portals <span class="cnt">4 punti</span></h2>
+  <table>
+    <tr>
+      <td class="p"><span class="dot a"></span></td>
+      <td class="t"><div class="ttl">RFI 198 — disegno <code>5-19-XX-04</code> mai pubblicato</div>
+        <div class="dsc">Il contractor lo attende per la finitura del vano porta camera/vanity. Serve lo spessore materiali per fissare il foro <strong>prima della piastrellatura</strong>.</div></td>
+      <td class="o">BLD · Basalt</td><td class="d">21.05.26</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot a"></span></td>
+      <td class="t"><div class="ttl">Spessore cladding: modello 20 mm vs doga reale 16 mm</div>
+        <div class="dsc">Impatta ceiling plans e dettagli porte. Sollevato da Basalt, mai chiuso formalmente.</div></td>
+      <td class="o">Basalt · Carlo</td><td class="d stale">19.11.24</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot a"></span></td>
+      <td class="t"><div class="ttl">Rischio imbarcamento delle doghe da 16 mm</div>
+        <div class="dsc">Una doga da 900 mm in Basalt risulta già visibilmente imbarcata. Chiesto se la posa proposta lo prevenga: nessuna risposta tecnica.</div></td>
+      <td class="o">Haute · Alart</td><td class="d stale">19.11.24</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot m"></span></td>
+      <td class="t"><div class="ttl">Trattamento dei claddings in zone umide</div>
+        <div class="dsc">Domanda di Perla: differisce da quello dei corridoi o è identico a meno del fire rating?</div></td>
+      <td class="o">Carlo · Haute</td><td class="d stale">19.11.24</td>
+    </tr>
+  </table>
+</section>
+
+<section>
+  <h2>BOQ &amp; item <span class="cnt">5 punti</span></h2>
+  <table>
+    <tr>
+      <td class="p"><span class="dot a"></span></td>
+      <td class="t"><div class="ttl"><code>5_19_01_51</code> — locker SPA, scelta fra due opzioni</div>
+        <div class="dsc">144 pezzi: 1.445 €/pz (HPL-ARPA, facce Fenix full colour) contro 660 €/pz (MDF hydro, box laminato). Differenza ~113.000 €.</div></td>
+      <td class="o">Carol · Hartmann</td><td class="d">—</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot a"></span></td>
+      <td class="t"><div class="ttl"><code>5_19_XX_94</code> — specchio bagno, modifiche dimensionali</div>
+        <div class="dsc">39 pezzi per 17.394 €. Disegno da aggiornare e quotazione da riverificare.</div></td>
+      <td class="o">Fabrizia</td><td class="d">17.07.26</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot m"></span></td>
+      <td class="t"><div class="ttl"><code>5_19_XX_12</code> — sofa sideboard, decisione finale</div>
+        <div class="dsc">Tenuto a costo per non perdere le prese elettriche; V2 emessa il 23.07 dopo il cambio di divano. Resta da decidere se sopravvive alla revisione.</div></td>
+      <td class="o">Carol · Fabrizia</td><td class="d">16.07.26</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot m"></span></td>
+      <td class="t"><div class="ttl">Tre item senza disegno, non quotati</div>
+        <div class="dsc"><code>5_19_03_43</code> battery shelf · <code>5_19_03_76</code> low cabinet · <code>5_19_03_19</code> fireplace. Da disegnare o da escludere formalmente.</div></td>
+      <td class="o">Fabrizia</td><td class="d">04.06.26</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot m"></span></td>
+      <td class="t"><div class="ttl">Action Tracker ancora vuoto</div>
+        <div class="dsc">Il file contiene solo le righe di esempio. Per la regola del progetto, «se una disposizione non è nel registro non esiste».</div></td>
+      <td class="o">Carlo</td><td class="d">—</td>
+    </tr>
+  </table>
+</section>
+
+<section>
+  <h2>Lighting <span class="cnt">3 punti</span></h2>
+  <table>
+    <tr>
+      <td class="p"><span class="dot a"></span></td>
+      <td class="t"><div class="ttl">Indirizzo campione DGA e rientro delle piastre</div>
+        <div class="dsc">DGA ha già prodotto tutte le componenti e attende solo le piastre rivestite in pelle. <strong>Chiude 10–21.08, ultime spedizioni 04.08.</strong></div></td>
+      <td class="o">Carlo · DGA</td><td class="d">22.07.26</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot a"></span></td>
+      <td class="t"><div class="ttl">Test dello spinotto jack DGA</div>
+        <div class="dsc">Influisce sulla costruzione di mobile e barra. Dall'esperienza Trenitalia si danneggia spesso: va testato ora, o DGA dovrà rifare il sistema più avanti.</div></td>
+      <td class="o">Carlo · DGA</td><td class="d">20.07.26</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot m"></span></td>
+      <td class="t"><div class="ttl">Magneti e riscontro metallico</div>
+        <div class="dsc">Forza dei magneti da provare sul riscontro verniciato; se la barra è in alluminio serve un riscontro in ferro, con impatto sullo sviluppo.</div></td>
+      <td class="o">Carlo · DGA</td><td class="d">20.07.26</td>
+    </tr>
+  </table>
+</section>
+
+<section>
+  <h2>Stones <span class="cnt">3 punti</span></h2>
+  <table>
+    <tr>
+      <td class="p"><span class="dot a"></span></td>
+      <td class="t"><div class="ttl">Abbassamento della soletta per pietre da 50 mm</div>
+        <div class="dsc">Bike room e ingressi hotel: la distanza attuale non basta. EFLA chiede conferma immediata perché è un'opera strutturale.</div></td>
+      <td class="o">Basalt · EFLA</td><td class="d">28.11.25</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot m"></span></td>
+      <td class="t"><div class="ttl">Accettazione della variabilità di spessore</div>
+        <div class="dsc">Il 2/5 cm non è una misura ma la variabilità dello spacco. Va verificato che gli islandesi l'abbiano compresa e accettata. Proposta: 2/5 pedonale e carrabile, 4/8 giganti — 7 cm non è un'opzione.</div></td>
+      <td class="o">Carlo · Carol</td><td class="d">28.11.25</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot m"></span></td>
+      <td class="t"><div class="ttl">Ingombro totale dei pavimenti</div>
+        <div class="dsc">Da calcolare includendo gli inerti di sottofondo. Da chiarire anche cosa si intenda per «pezzatura normale».</div></td>
+      <td class="o">Carlo · Pedretti</td><td class="d">28.11.25</td>
+    </tr>
+  </table>
+</section>
+
+<section>
+  <h2>Budget &amp; Logistic <span class="cnt">6 punti</span></h2>
+  <table>
+    <tr>
+      <td class="p"><span class="dot a"></span></td>
+      <td class="t"><div class="ttl">Stima ore-uomo fino a fine 2027</div>
+        <div class="dsc">Richiesta da Lárus per la cost estimation destinata alla banca. Non ancora consegnata.</div></td>
+      <td class="o">Carol · Carlo</td><td class="d">15.06.26</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot a"></span></td>
+      <td class="t"><div class="ttl">Destinazione trasporti da correggere</div>
+        <div class="dsc">Il preventivo dice DAP Grindavík, che è Blue Lagoon. Per Mountain valgono <strong>Árnes</strong> e il porto di <strong>Þorlákshöfn</strong>.</div></td>
+      <td class="o">Carlo · Alart</td><td class="d">25.06.26</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot m"></span></td>
+      <td class="t"><div class="ttl">Container in sito — quanti e per quanto tempo</div>
+        <div class="dsc">Non considerato nel preventivo da 8–9 K€ a container.</div></td>
+      <td class="o">Carlo · Carol</td><td class="d">25.06.26</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot m"></span></td>
+      <td class="t"><div class="ttl">Assicurazione trasporto</div>
+        <div class="dsc">Esclusa dal preventivo, in corso di quantificazione da parte di Alart.</div></td>
+      <td class="o">Alart</td><td class="d">25.06.26</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot m"></span></td>
+      <td class="t"><div class="ttl">Rifugio con cucina per i montatori</div>
+        <div class="dsc">Ipotesi per abbattere i costi di vitto: BL fornisce la materia prima, i montatori cucinano. Carol chiede se è fattibile.</div></td>
+      <td class="o">Carlo</td><td class="d">26.06.26</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot m"></span></td>
+      <td class="t"><div class="ttl">Tre porte Javerk mancanti nei conteggi</div>
+        <div class="dsc">Il budget porte non è chiudibile finché non rientrano.</div></td>
+      <td class="o">Carol · Javerk</td><td class="d">26.06.26</td>
+    </tr>
+  </table>
+</section>
+
+<section>
+  <h2>BREEAM &amp; fornitori <span class="cnt">4 punti</span></h2>
+  <table>
+    <tr>
+      <td class="p"><span class="dot a"></span></td>
+      <td class="t"><div class="ttl">Arredi fissi in BREEAM — conformità dei fornitori custom</div>
+        <div class="dsc">Da febbraio 2025 gli arredi avvitati o inchiodati all'edificio rientrano in Hea 02 e Mat 03. Il team assumeva il contrario: va verificata la conformità di tutto il custom.</div></td>
+      <td class="o">Carol · EFLA</td><td class="d stale">03.02.25</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot a"></span></td>
+      <td class="t"><div class="ttl">Pelle Apir — conferma ad Alart e spedizione</div>
+        <div class="dsc">1 m² di spaccata 0,8 mm in strisce da 45 cm, da inviare ad Apir che esegue taglio e applicazione.</div></td>
+      <td class="o">Carlo · Alart</td><td class="d">22.07.26</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot m"></span></td>
+      <td class="t"><div class="ttl">Schede tecniche Haute in inglese</div>
+        <div class="dsc">Le schede inviate erano in italiano. Perla le ha richieste due volte in inglese, con i valori VOC evidenziati. Nessun seguito.</div></td>
+      <td class="o">Carlo · Haute</td><td class="d stale">19.02.25</td>
+    </tr>
+    <tr>
+      <td class="p"><span class="dot m"></span></td>
+      <td class="t"><div class="ttl">Date trasferta Islanda e durata trasporto</div>
+        <div class="dsc">Proposta partenza ven 26 / rientro dom 28–29. Matteo chiede quanto impiega un camion dedicato: sette giorni?</div></td>
+      <td class="o">Carlo · Alart</td><td class="d">06.06.26</td>
+    </tr>
+  </table>
+</section>
+
+<div class="foot">
+  <div>Mountain Retreat — Topic aperti · 25.07.2026 · documento interno</div>
+  <div class="pay">Every space. Delivered.</div>
+</div>
+
+</body>
+</html>
